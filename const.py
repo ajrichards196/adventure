@@ -1,0 +1,9 @@
+NORTH = 'north'
+EAST = 'east'
+SOUTH = 'south'
+WEST = 'west'
+SCREEN_WIDTH = 80
+TAVERN = 'tavern'
+TOWN_SQUARE = 'town square'
+BLACK_FOREST = 'black forest'
+GENERAL_STORE = 'general store'
