@@ -1,11 +1,11 @@
 class WorldItem:
-    def __init__(self, long_desc, short_desc, takeable, takeable_desc, edible, edible_desc):
+    def __init__(self, long_desc, short_desc):
         self.long_desc = long_desc
         self.short_desc = short_desc
-        self.takeable = takeable
-        self.takeable_desc = takeable_desc
-        self.edible = edible
-        self.edible_desc = edible_desc
+        self.takeable = True
+        self.takeable_desc = ""
+        self.edible = False
+        self.edible_desc = ""
 
 class Weapon(WorldItem):
     def __init__(self, long_desc, short_desc, damage):
@@ -15,11 +15,13 @@ class Weapon(WorldItem):
         self.damage = damage
 
 class Potion(WorldItem):
-    def __init__(self, long_desc, short_desc, healing):
+    def __init__(self, long_desc, short_desc, colour):
         super().__init__(long_desc, short_desc)
         self.takeable = True
         self.edible = True
-        self.healing = healing
+        self.colour = colour
+        if colour == 'red':
+            self.healing = 10
 
 class WorldEvent:
     def __init__(self, description):
