@@ -7,3 +7,5 @@ TAVERN = 'tavern'
 TOWN_SQUARE = 'town square'
 BLACK_FOREST = 'black forest'
 GENERAL_STORE = 'general store'
+STARTING_ROOM = TOWN_SQUARE
+RED = 'red'

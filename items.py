@@ -1,4 +1,5 @@
 from world import WorldItem, Weapon, Potion
+from const import *
 
 town_signpost = WorldItem(
     "A wooden signpost with three directions; " \
@@ -6,10 +7,10 @@ town_signpost = WorldItem(
     "East: General Store, " \
     "West: Duke's Arms Tavern",
     "A signpost with three directions",
-    False,
-    "You cannot take the sign, it is bolted to the ground",
-    False,
-    "You are not a wood worm"
+    takeable = False,
+    takeable_desc = "You cannot take the sign, it is bolted to the ground",
+    edible = False,
+    edible_desc = "You are not a wood worm"
 )
 
 statue = WorldItem(
@@ -22,8 +23,22 @@ statue = WorldItem(
     "You cannot eat stone"
 )
 
+red_potion = Potion(
+    "A small glass bottle filled with an iridescant red liquid",
+    "red potion",
+    RED
+)
+dagger = Weapon(
+    "A small blade with a leather wrapped hilt.",
+    "dagger",
+    damage = 5
+)
+
+
 items = {
     "town signpost": town_signpost,
-    "statue": statue
+    "statue": statue,
+    "red potion": red_potion,
+    "dagger": dagger
 }
 
