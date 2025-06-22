@@ -1,6 +1,6 @@
 import textwrap
 from world import WorldRoom, WorldItem
-from const import SCREEN_WIDTH
+from const import *
 from rooms import generate_world
 from items import items
 from characters import Player
@@ -26,16 +26,17 @@ def printWelcomeScreen():
 def printCommands():
     print("Available commands:")
     print("\t'quit': Quit the game.")
-    print("\t'look': Look in a direction or at an item")
+    print("\t'look': Look at the current room. 'look items' will show items in the room")
+    print("\t'look' + direction: Look at the room in the specified direction")
+    print("\t'look' + item name: Look at a specific item")
     print("\t'go': Move in a direction")
+    print("\t'inventory': Show the items in your inventory")
     print("\t'help': List available commands")
 
 def printItems(player: Player):
     if len(player.current_room.items) > 0:
         print("You can see the following items:")
-        #item: WorldItem
         for item_name in player.current_room.items:
-            #item_name = item
             item = items[item_name]
             print(f"{item_name}: ", item.short_desc)
     else:
@@ -60,8 +61,6 @@ def moveDirection(player: Player, direction: str, rooms):
         print(f"You moved {direction} into {player.current_room.location}")  
     else:
         print(f"You cannot move {direction}")
-        #time.sleep(2)
-    #return current_room
 
 
 def main():
@@ -80,7 +79,7 @@ def main():
     while game:
             
         print()
-        print("choose an action")
+        print("choose an action *type 'help' for available actions")
         player_command = input('>')
         refreshScreen(player)
         player_command = player_command.lower().split(' ', 1)
@@ -88,8 +87,11 @@ def main():
         noun = ''
         if len(player_command) > 1:
             noun = player_command[1]
-        
-        if verb == 'help':
+
+        if verb == "inventory":
+            print("Inventory:")
+            print([item.short_desc for item in player.inventory])
+        elif verb == 'help':
             printCommands()
         elif verb == 'quit':
             print("Thanks for playing!")
@@ -103,10 +105,17 @@ def main():
                 item = items[noun]
                 print(f"You inspect the {noun}")
                 print(item.long_desc)
+            if noun in DIRECTIONS:
+                direction = noun
+                if direction not in player.current_room.exits:
+                    print(f"There is nothing to the {direction}")
+                else:
+                    next_room = player.current_room.exits[direction]
+                    print(f"You look {direction}, you see {rooms[next_room].short_desc.lower()}")
         elif verb == 'go':
             if not noun:
                 noun = input("Choose a direction; north, east, south, west\n>")
-            if noun in ['north', 'east','south','west']:
+            if noun in DIRECTIONS:
                 moveDirection(player, noun, rooms)
                 outcome = player.current_room.event.start()
                 refreshScreen(player)

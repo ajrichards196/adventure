@@ -38,8 +38,8 @@ class Potion(WorldItem):
             self.healing = 10
             self.value = 20
     
-    # def __str__(self):
-    #     return self.short_desc
+    def __str__(self):
+        return self.short_desc
 
 class WorldEvent:
     def __init__(self, description):

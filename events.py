@@ -24,7 +24,8 @@ class GeneralStoreEvent(ShopEvent):
         self.items = {'red potion': {"amount": 2, "value": 20}}
 
     def start(self):
-        if len(self.items) == 0:
+        total_items = sum([self.items[item]['amount'] for item in self.items])
+        if total_items == 0:
             self.complete = True
         if self.complete:
             print("I have nothing more to sell, come back another time.")
@@ -35,13 +36,21 @@ class GeneralStoreEvent(ShopEvent):
         else:
             print("Ah, changed your mind have we?")
             for item in self.items:
-                print(f"{item}, cost: {self.items[item]['value']}" )
+                print(f"{item} x{self.items[item]['amount']}, cost: {self.items[item]['value']}" )
         self.first_trigger = False
         shopping = True
         while shopping:
             print("Type 'buy' to purchase an item")
             print("or type 'leave' to leave the shop")
+
             choice = input(">")
+            total_items = sum([self.items[item]['amount'] for item in self.items])
+            if total_items == 0:
+                refreshScreen(self.player)
+                print("I have nothing more to sell, come back another time.")
+                input("Press any key to leave the shop\n>")
+                shopping = False
+                return f'You leave the shop and return to the {self.player.previous_room}'
             if choice.lower() == 'leave':
                 self.player.current_room = self.player.previous_room
                 shopping = False
@@ -49,12 +58,23 @@ class GeneralStoreEvent(ShopEvent):
             elif choice.lower() == 'buy':
                 print("Which item do you want to buy?")
                 item_to_buy = input(">")
-                if item_to_buy in self.items and self.player.gold > items[item].value:
+                if item_to_buy not in self.items:
+                    refreshScreen(self.player)
+                    print(f"Sorry,we don't have any {item_to_buy}")
+                    continue
+                elif self.player.gold < self.items[item_to_buy]['value']:
+                    refreshScreen(self.player)
+                    print(f"It seems you can't afford a {item_to_buy}")
+                    continue
+                elif self.items[item_to_buy]["amount"] < 1:
+                    refreshScreen(self.player)
+                    print(f"Sorry, we don't have any {item_to_buy} left")
+                else:
                     self.player.gold -= self.items[item]['value']
                     self.player.inventory.append(items[item_to_buy])
                     self.items[item_to_buy]['amount'] -= 1
                     refreshScreen(self.player)
-                    print(f"You bought {item_to_buy}")
+                    print(f"You bought {item_to_buy} for {self.items[item]['value']} gold.")
 
 
         
