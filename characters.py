@@ -1,4 +1,5 @@
-from world import WorldRoom, WorldEvent, WorldItem
+from world import WorldRoom, WorldEvent, WorldItem, Weapon
+from items import *
 
 class Character:
     def __init__(self, 
@@ -25,15 +26,16 @@ class Character:
         self.health += amount
 
 class Player(Character):
-    def __init__(self, name, race):
+    def __init__(self, name, race, strength, armour, health, gold = 0, inventory = [], weapon = Weapon):
         super().__init__(name, 
                          race, 
-                         strength=10, 
-                         armour=10, 
-                         health=100, 
-                         gold=50, 
-                         xp=0
+                         strength, 
+                         armour, 
+                         health, 
+                         gold
                          )
+        self.xp = 0
+        self.weapon = weapon
         first_event = WorldEvent("start")
         first_room = WorldRoom("starting room", "The ether before the game starts","empty room", {}, first_event)
         self.current_room = first_room
@@ -41,6 +43,11 @@ class Player(Character):
 
     def add_to_inventory(self, item):
         self.inventory.append(item)
+
+class Enemy(Character):
+    def __init__(self, name, race, strength, armour, health, gold = 0, inventory = [], weapon = Weapon):
+        super().__init__(name, race, strength, armour, health, gold, inventory)
+        self.weapon = weapon
     
 
     

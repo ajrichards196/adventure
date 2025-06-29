@@ -8,7 +8,7 @@ import os
 
 def refreshScreen(player: Player):
     os.system('cls' if os.name == 'nt' else 'clear')
-    status_message = f"Health: {player.health}, Location: {player.current_room.location}, Gold: {player.gold}"
+    status_message = f"Player: {player.name} the {player.race}, Health: {player.health}, Location: {player.current_room.location}, Gold: {player.gold}"
     print(status_message)
     print('=' * len(status_message))
     print()
@@ -67,7 +67,12 @@ def main():
 
     os.system('cls' if os.name == 'nt' else 'clear')
     character_creation = printWelcomeScreen()
-    player = Player(*character_creation)
+    player = Player(*character_creation, 
+                    strength=10, 
+                    armour=10, 
+                    health=100, 
+                    gold=50,
+                    weapon=items["fist"])
     rooms = generate_world(player)
     starting_room = rooms['town square']
     player.current_room = starting_room
@@ -120,6 +125,8 @@ def main():
                 outcome = player.current_room.event.start()
                 refreshScreen(player)
                 print(outcome)
+                if player.health < 1:
+                    game = False
         
         else:
             print(f"Unknown command: {player_command}")

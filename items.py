@@ -33,12 +33,18 @@ dagger = Weapon(
     "dagger",
     damage = 5
 )
+fist = Weapon(
+    "Your fist",
+    "fist",
+    damage = 1
+)
 
 
 items = {
     "town signpost": town_signpost,
     "statue": statue,
     "red potion": red_potion,
-    "dagger": dagger
+    "dagger": dagger,
+    "fist": fist
 }
 

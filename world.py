@@ -36,7 +36,6 @@ class Potion(WorldItem):
         self.colour = colour
         if colour == 'red':
             self.healing = 10
-            self.value = 20
     
     def __str__(self):
         return self.short_desc
@@ -77,4 +76,6 @@ class WorldRoom:
         else:
             raise Exception(f"{item} not in room")
         
+
+
 

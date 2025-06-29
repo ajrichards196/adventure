@@ -9,7 +9,6 @@ def generate_world(player:Player):
         long_desc= "A wide open space with a statue in the centre and a sign post in front of it.\n" \
         "It seems eerily quiet.",
         short_desc= "A wide open space",
-        # [NORTH, EAST, WEST],
         exits = {NORTH: BLACK_FOREST, EAST: GENERAL_STORE, WEST: TAVERN},
         event= TownSquareEvent("start"),
         items= ["town signpost", "statue"]
@@ -32,19 +31,19 @@ def generate_world(player:Player):
         
     )
 
-    # tavern = WorldRoom(
-    #     "The Duck's Arms Tavern",
-    #     "A cosy tavern that has seen better days.",
-    #     "A small building with a sign hanging above the door",
-    #     {EAST: TOWN_SQUARE}
-
-    # )
+    tavern = WorldRoom(
+        "The Duck's Arms Tavern",
+        "A small tavern that has seen better days.",
+        "A small building with a sign hanging above the door",
+        {EAST: TOWN_SQUARE},
+        event=TavernEvent("bar fight", player)
+    )
 
     rooms = {
         TOWN_SQUARE: town_square,
         #BLACK_FOREST: black_forest,
         GENERAL_STORE: general_store,
-        #TAVERN: tavern
+        TAVERN: tavern
     }
     return rooms
 
